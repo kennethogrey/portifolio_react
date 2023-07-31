@@ -5,16 +5,24 @@ const SocialMedia = ()=>{
     return (
         <div className='app__social'>
             <div>
-                <BsGithub/>
+                <a href='https://github.com/kennethogrey' target='_blank' rel="noopener noreferrer">
+                    <BsGithub/>
+                </a>
             </div>
             <div>
-                <BsLinkedin/>
+                <a href='https://www.linkedin.com/in/ogire-kenneth-68999a213' target='_blank' rel="noopener noreferrer">
+                    <BsLinkedin/>
+                </a>
             </div>
             <div>
-                <BsTwitter/>
+                <a href='https://twitter.com/KennethOgrey' target='_blank' rel="noopener noreferrer">
+                    <BsTwitter/>
+                </a>
             </div>
             <div>
-                <BsInstagram/>
+                <a href='https://www.instagram.com/kennethogrey/' target='_blank' rel="noopener noreferrer">
+                    <BsInstagram/>
+                </a>
             </div>
         </div>
     )

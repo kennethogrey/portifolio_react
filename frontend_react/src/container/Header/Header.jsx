@@ -36,6 +36,9 @@ const Header = () => (
           <p className="p-text">Software Engineer</p>
           <p className="p-text">Web Developer</p>
           <p className="p-text">Freelancer</p>
+          <a href='Ogire-Kenneth-CV.pdf' download='ogire_kennethCV.pdf'>
+            <button className='btn highlighted-btn'>Get Resume</button>
+          </a>
         </div>
         
       </div>

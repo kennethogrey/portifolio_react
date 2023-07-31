@@ -1,41 +1,36 @@
-import React,{useState} from "react";
+import React,{useRef, useState} from "react";
+import emailjs from '@emailjs/browser'
 import {images} from '../../constants'
-import {client} from '../../client'
 import {AppWrap, MotionWrap} from '../../Wrapper'
 import './Footer.scss'
 
 const Footer = ()=>{
 
-    const [formData, setFormData] = useState({name:'',email:'',message:''})
     const [isFormSubmitted, setIsFormSubmitted] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const {name, email, message} = formData;
-    const handleChangeInput=(e)=>{
-        const {name, value} = e.target;
-
-        setFormData({...formData, [name]:value});
-    }
-
-    const handleSubmit = ()=>{
+    
+    const form = useRef();
+    const sendEmail = (e)=>{
+        e.preventDefault();
         setLoading(true);
-
-        const contact = {
-            _type: 'contact',
-            name: name,
-            email: email,
-            message: message,
-        }
-
-        client.create(contact)
-            .then(()=>{
-                setLoading(false)
-                setIsFormSubmitted(true)
-            })
+        emailjs.sendForm(
+            process.env.REACT_APP_EMAIL_JS_SERVICE_ID,
+            process.env.REACT_APP_EMAIL_JS_TEMPLATE_ID,
+            form.current,
+            process.env.REACT_APP_EMAIL_JS_PUBLIC_KEY,
+        ).then((result)=>{
+            console.log(result.text)
+            setLoading(false)
+            setIsFormSubmitted(true)
+        }, (error)=>{
+            console.log(error.text)
+        })
     }
+
     return (
         <>
-            <h2 className="head-text">Take a coffee & chat with me</h2>
+            <h2 className="head-text">Do you have a project for me?</h2>
 
             <div className="app__footer-cards">
                 <div className="app__footer-card">
@@ -51,25 +46,23 @@ const Footer = ()=>{
 
 
             {!isFormSubmitted ? 
-                <div className="app__footer-form app__flex">
+                <form ref={form} onSubmit={sendEmail} className="app__footer-form app__flex">
                     <div className="app__flex">
-                        <input className="p-text" type="text" placeholder="Your name" name="name" value={name} onChange={handleChangeInput}/>
+                         <input className="p-text" type="text" placeholder="Your Name" name="user_name" />
                     </div>
 
                     <div className="app__flex">
-                        <input className="p-text" type="email" placeholder="Your email" name="email" value={email} onChange={handleChangeInput}/>
+                        <input className="p-text" type="email" placeholder="Your Email" name="user_email" />
                     </div>
                     <div>
                         <textarea
                             className="p-text" 
-                            placeholder="Your message"
-                            value={message}
+                            placeholder="Your Message"
                             name='message'
-                            onChange={handleChangeInput}
                         />
                     </div>
-                    <button type="button" className="p-text" onClick={handleSubmit}>{loading ? 'Sending' :'Send message'}</button>
-                </div>
+                    <button type="submit" className="p-text">{loading ? 'Sending' :'Send message'}</button>
+                </form>
                 : <div>
                     <h3 className="head-text">Thank You for getting in Touch</h3>
                 </div>
